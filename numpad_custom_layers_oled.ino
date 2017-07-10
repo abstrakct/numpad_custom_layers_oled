@@ -153,7 +153,7 @@ int keymap[LAYERS][ROWS][COLUMNS] =
     { K_1,            K_2,     K_3,        0        },
     { 0,              K_0,     K_DOUBLEO,  K_ENTER  }
   },
-  // layer 1
+  // layer 1 (movement) - TODO: replace INSERT and DELETE, they're not needed
   {
     { K_CHANGE_LAYER, K_SLASH, K_ASTERISK, K_MINUS  },
     { K_HOME,         K_UP,    K_PAGEUP,   0        },
