@@ -417,7 +417,7 @@ void keymap_to_keypress(int k)
       Keyboard.press(KEY_LEFT_SHIFT);
       Keyboard.press('q');
       break;
-    case K_RESTART_I3:
+    case K_RESTART_WM:
       Keyboard.press(KEY_LEFT_GUI);
       Keyboard.press(KEY_LEFT_SHIFT);
       Keyboard.press('r');
@@ -642,7 +642,7 @@ void keymap_release(int k)
       Keyboard.release(KEY_LEFT_SHIFT);
       Keyboard.release('q');
       break;
-    case K_RESTART_I3:
+    case K_RESTART_WM:
       Keyboard.release(KEY_LEFT_GUI);
       Keyboard.release(KEY_LEFT_SHIFT);
       Keyboard.release('r');
@@ -692,7 +692,7 @@ void setup() {
 }
 
 
-const int DEBOUNCE_MS = 10;
+const int DEBOUNCE_MS = 5;
 
 bool debounce(unsigned long t_now, unsigned long t_prev) {
   unsigned long diff;
