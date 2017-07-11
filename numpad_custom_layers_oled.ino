@@ -15,17 +15,7 @@
 #endif
 
 
-/*
-  U8glib Example Overview:
-    Frame Buffer Examples: clearBuffer/sendBuffer. Fast, but may not work with all Arduino boards because of RAM consumption
-    Page Buffer Examples: firstPage/nextPage. Less RAM usage, should work with all Arduino boards.
-    U8x8 Text Only Example: No RAM usage, direct communication with display controller. No graphics, 8x8 Text only.
-
-  This is a page buffer example.
-*/
-
-// End of constructor list
-
+// U8G2 constructor
 U8G2_SSD1306_128X32_UNIVISION_1_SW_I2C u8g2(U8G2_R0, /* clock=*/ 2, /* data=*/ 14, /* reset=*/ U8X8_PIN_NONE);
 
 const char *layernames[] = {
