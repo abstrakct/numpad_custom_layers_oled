@@ -11,18 +11,19 @@
 // U8G2 constructor
 U8G2_SSD1306_128X32_UNIVISION_1_SW_I2C u8g2(U8G2_R0, /* clock=*/ 2, /* data=*/ 14, /* reset=*/ U8X8_PIN_NONE);
 
-const char *layernames[] = {
-  "numbers",
-  "movement",
-  "i3"
-};
-
 
 
 const int LAYERS  = 3;
 const int COLUMNS = 4;
 const int ROWS    = 5;
 const int HB_LED  = 17;
+
+const char *layernames[LAYERS] = {
+  "numbers",
+  "movement",
+  "i3"
+};
+
 
 // some variables for the OLED power save stuff
 bool oled_off = 0;
