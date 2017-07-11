@@ -29,9 +29,9 @@
 U8G2_SSD1306_128X32_UNIVISION_1_SW_I2C u8g2(U8G2_R0, /* clock=*/ 2, /* data=*/ 14, /* reset=*/ U8X8_PIN_NONE);
 
 const char *layernames[] = {
-  "  numbers",
-  " movement",
-  "       i3"
+  "numbers",
+  "movement",
+  "i3"
 };
 
 
@@ -40,6 +40,11 @@ const int LAYERS  = 3;
 const int COLUMNS = 4;
 const int ROWS    = 5;
 const int HB_LED  = 17;
+
+// some variables for the OLED power save stuff
+bool oled_off = 0;
+long oled_timeout = 5000;    // 5 seconds (5000 milliseconds)
+long oled_timer;
 
 #define HEARTBEAT_ENABLED 0
 
@@ -193,20 +198,26 @@ void keymap_to_keypress(int k)
 {
   switch (k) {
     case K_CHANGE_LAYER:
-      layer++;
-      if (layer >= LAYERS)
-        layer = 0;
+      if (oled_off) {    // if the oled is off then we want to turn it on and display current layer and reset the timer
+        oled_off = false;
+        u8g2.setPowerSave(0);
+        oled_timer = millis();
+      } else {
+        layer++;
+        if (layer >= LAYERS)
+          layer = 0;
 
-      // Then show the current layer name on the OLED
-      // It is only necessary to do it once - and doing it in the loop makes the keys unresponsive
-      // Therefore we only do it here.
-      
-      u8g2.firstPage();
-      do {
-        u8g2.setFont(u8g2_font_ncenB14_tr);
-        u8g2.drawStr(0, 24, layernames[layer]);
-      } while ( u8g2.nextPage() );
-      
+        // Then show the current layer name on the OLED
+        // It is only necessary to do it once - and doing it in the loop makes the keys unresponsive
+        // Therefore we only do it here.
+
+        u8g2.firstPage();
+        do {
+          u8g2.setFont(u8g2_font_ncenB14_tr);
+          u8g2.drawStr(0, 24, layernames[layer]);
+        } while ( u8g2.nextPage() );
+      }
+
       break;
     case K_MONITOR:
       rightmonitor = !rightmonitor;
@@ -761,20 +772,11 @@ void loop() {
   strobe_row++;
   delay(5);
 
-  // Display the layer name on the OLED display
-
-  /*
-    u8g2.firstPage();
-
-    do {
-    u8g2.setFont(u8g2_font_helvB18_tr);
-    u8g2.setCursor(2, 24);
-    u8g2.print(layernames[layer]);
-    } while ( u8g2.nextPage() );
-
-  */
-
-
-
-
+  // check if oled should be turned off
+  if(!oled_off) {
+    if(millis() >= (oled_timer + oled_timeout)) {
+      oled_off = true;
+      u8g2.setPowerSave(1);
+    }
+  }
 }
